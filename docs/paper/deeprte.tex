@@ -1,0 +1,39 @@
+\documentclass[a4paper]{article}
+
+\usepackage{paper,math}
+\usepackage[margin=1in]{geometry}
+\usepackage{authblk}
+
+\graphicspath{{figs/}}
+
+\begin{document}
+
+\title{DeepRTE:\ Pre-trained Attention-based Neural Network for
+	Radiative Tranfer}
+% \funding{This work was funded by the Fog Research Institute under
+% contract no.~FRI-454.}}}
+\author[1]{Yekun Zhu}
+\author[1,2,*]{Min Tang}
+\author[1,2,3,*]{Zheng Ma}
+\affil[1]{{\small School of Mathematical Sciences, Shanghai Jiao Tong University, Shanghai, 200240, China}}
+\affil[2]{{\small Institute of Natural Sciences, MOE-LSC, Shanghai Jiao Tong University, Shanghai, 200240, China}}
+\affil[3]{{\small CMA-Shanghai, Shanghai Jiao Tong University, Shanghai, 200240, China}}
+\renewcommand{\thefootnote}{*}
+\footnotetext{Corresponding authors}
+\date{\today}
+\maketitle
+
+\input{contents/abstract}
+\input{contents/introduction.tex}
+\input{contents/preliminaries.tex}
+\input{contents/architecture.tex}
+\input{contents/training.tex}
+\input{contents/experiments.tex}
+\input{contents/ablation_study.tex}
+\input{contents/conclusion.tex}
+\input{contents/acknowledgements}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

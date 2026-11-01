@@ -1,0 +1,178 @@
+% Packages and macros go here
+
+% Mathtools package which loads amsmath automatically
+\usepackage{mathtools}
+
+% Symbols and Bold fonts
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+
+%\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+
+% Use BibLaTeX for references
+\usepackage{natbib}
+% \usepackage[backend=biber]{biblatex}
+% \renewcommand{\bibfont}{\zihao{5}\setbaselineskip{16bp}}
+% \setlength{\bibitemsep}{3bp plus 1pt}
+
+% Foot notes
+% \usepackage[perpage,bottom,hang]{footmisc}
+
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.eps,.png,.jpg,.jpeg}
+
+% \usepackage{float}
+
+% \usepackage{tabularx}
+
+\usepackage{booktabs}
+
+% 表格中支持跨行
+\usepackage{multirow}
+
+\usepackage{dcolumn}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+
+\usepackage{longtable}
+
+\usepackage{threeparttable}
+
+\usepackage{threeparttablex}
+
+\usepackage[dvipsnames]{xcolor}
+
+% Set spacing between lines
+\usepackage[onehalfspacing]{setspace}
+
+\usepackage{listings}
+\lstdefinestyle{lstStyleCode}{%
+  aboveskip         = \medskipamount,
+  belowskip         = \medskipamount,
+  basicstyle        = \ttfamily\zihao{-5}\setbaselineskip{12bp},
+  commentstyle      = \slshape\color{black!60},
+  stringstyle       = \color{green!40!black!100},
+  keywordstyle      = \bfseries\color{blue!50!black},
+  extendedchars     = false,
+  upquote           = true,
+  tabsize           = 2,
+  showstringspaces  = false,
+  xleftmargin       = 1em,
+  xrightmargin      = 1em,
+  breaklines        = false,
+  framexleftmargin  = 1em,
+  framexrightmargin = 1em,
+  backgroundcolor   = \color{gray!10},
+  columns           = flexible,
+  keepspaces        = true,
+  texcl             = true,
+  mathescape        = true
+}
+\lstnewenvironment{codeblock}[1][]{%
+  \lstset{style=lstStyleCode,#1}}{}
+
+% 国际单位制宏包
+\usepackage{siunitx}
+
+% 定理环境宏包
+\usepackage{amsthm}
+% \usepackage{ntheorem}
+
+% 绘图宏包
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, shapes.geometric}
+
+% 数据图表宏包
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+
+% 一些文档中用到的 logo
+\usepackage{hologo}
+\providecommand{\XeTeX}{\hologo{XeTeX}}
+\providecommand{\BibLaTeX}{\textsc{Bib}\LaTeX}
+
+\usepackage{lmodern}
+% \usepackage{newtxtext}
+% \usepackage[scaled=0.9]{couriers}
+
+% E-mail
+\providecommand{\email}[1]{\href{mailto:#1}{\urlstyle{tt}\nolinkurl{#1}}}
+
+\usepackage{float}
+\usepackage[colorlinks=True,linkcolor=blue]{hyperref}
+% \usepackage{cleveref}
+
+% 算法环境宏包
+% \usepackage[ruled,vlined]{algorithm2e}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algrenewcommand{\algorithmiccomment}[1]{\Statex{\hspace{-1.1em}\color{Brown}\small\textit{\# \;#1}}}
+\newcommand{\Ret}{\State{\color{OliveGreen}\Return}}
+\newcommand{\Def}{{\color{OliveGreen}\textbf{def  }}}
+
+\usepackage{tabularx}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+\usepackage{xcolor}
+\usepackage[draft]{changes}
+\definechangesauthor[name={Zheng Ma}, color=purple]{MZ}
+\definechangesauthor[name={Yekun Zhu}, color=blue]{ZYK}
+
+% Glossaries (replaces old nomencl usage)
+% \usepackage[sort=none,nonumberlist]{glossaries}
+% \makeglossaries
+
+% \usepackage{nomencl}
+% \makenomenclature
+
+\usepackage{nomencl}
+\usepackage{multicol}
+\makenomenclature
+
+% %% This code creates the groups
+% % -----------------------------------------
+\usepackage{etoolbox}
+\usepackage{framed} % Framing content
+\usepackage{multicol}
+\renewcommand{\nompreamble}{\begin{multicols}{2}} % 开始多列环境
+    \renewcommand{\nompostamble}{\end{multicols}}    % 结束多列环境
+\setlength{\nomitemsep}{-0.5ex} % 行距（范围：-2ex到1ex）
+
+% If group omitted, falls back to Z group.
+\makeatletter
+% Define per-group counters lazily (T and N predefined). You can add more groups if needed.
+\@ifundefined{c@nom@A}{\newcounter{nom@A}}{}
+\@ifundefined{c@nom@N}{\newcounter{nom@N}}{}
+% Hidden default group counter
+\@ifundefined{c@nom@Z}{\newcounter{nom@Z}}{}
+
+% Zero-pad helper (3 digits). Adapt if >999 entries expected per group.
+\newcommand*{\nom@padthree}[1]{\ifnum#1<10 00\else\ifnum#1<100 0\fi\fi}
+
+\let\nom@orig@nomenclature\nomenclature
+\renewcommand{\nomenclature}[3][]{%
+  % #1 = group letter like T / N. If empty, use Z.
+  \def\nom@group{#1}%
+  \ifx\nom@group\@empty\def\nom@group{Z}\fi
+  % Increment appropriate counter
+  \@ifundefined{c@nom@\nom@group}{% create counter on first use
+    \expandafter\newcounter\csname nom@\nom@group\endcsname
+  }{}
+  \stepcounter{nom@\nom@group}%
+  % Compose zero-padded index
+  \edef\nom@idx{\nom@padthree{\value{nom@\nom@group}}\arabic{nom@\nom@group}}%
+  % Sort key = group letter + index so groups stay clustered, internal order preserved
+  \edef\nom@sortkey{\nom@group\nom@idx}%
+  \nom@orig@nomenclature[\nom@sortkey]{#2}{#3}%
+}
+\makeatother
+
+% (Re)define group title formatting if using same letters T/N etc.
+% Example: show custom headers for T and N only. Adjust as needed.
+\renewcommand\nomgroup[1]{\item[\bfseries
+              \ifstrequal{#1}{A}{Theoretical Symbols}{\ifstrequal{#1}{N}{Numerical Symbols}{}}]}%

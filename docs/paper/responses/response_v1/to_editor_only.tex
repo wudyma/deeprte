@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+\usepackage{color}
+\usepackage{units}
+\makeatletter
+\usepackage{fullpage}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{url}
+% \usepackage{cite}
+\usepackage{nameref,hyperref}
+% \usepackage[fontsize=13pt]{fontsize}
+\usepackage{graphicx}
+% \bibliographystyle{plain}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.5}
+% import Eq and Section references from the main manuscript where needed
+% \usepackage{xr}
+% \externaldocument{manuscript}
+\usepackage{xifthen}
+% define counters for reviewers and their points
+\usepackage{float}
+
+\definecolor{bl}{HTML}{005086}   %318fb5
+\newcommand{\bl}[1]{{\color{bl}#1}}
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+\newcounter{point}[reviewer]
+\setcounter{point}{0}
+\renewcommand{\fnum@figure}{RFig ~\thefigure}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+% This refines the format of how the reviewer/point reference will appear.
+\renewcommand{\thepoint}{P\,\thereviewer.\arabic{point}}
+
+% command declarations for reviewer points and our responses
+%\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip \hrule
+%                  \section*{Reviewer \thereviewer}}
+\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip
+\section*{Reviewer \thereviewer}}
+\newenvironment{Comment}{ \bigskip \noindent  {\textbf{[General Comment]}}  } {\par }
+\newenvironment{point}{\refstepcounter{point} \bigskip \noindent {\textbf{[Reviewer~Point~\thepoint]} }  }{\par }
+\newcommand{\shortpoint}[1]{\refstepcounter{point}  \bigskip \noindent
+{\textbf{Reviewer~Point~\thepoint} } ---~#1\par }
+\newenvironment{reply}{\medskip \noindent \textbf{Response}:\  \color{blue}\ignorespaces}{\medskip}
+\newcommand{\shortreply}[2][]{\medskip \noindent
+  \begin{sf}\textbf{Reply}:\  #2
+    \ifthenelse{\equal{#1}{}}{}{ \hfill \footnotesize (#1)}%
+    \medskip
+\end{sf}}
+\newcommand{\minew}[1]{{\color{red}{#1}}}
+\makeatother
+
+\begin{document}
+
+\section*{Response to Editor}
+
+\begin{flushleft}
+  Dear Editor,
+\end{flushleft}
+
+We appreciate you and the reviewers for your precious time in reviewing our paper and providing thoughtful and insightful comments.
+We have addressed every comment and provide the point-by-point responses, and believe that, taken together, the reviewers' comments have improved the manuscript significantly.
+
+However, we also observe that as a work focusing on constructing a novel numerical algorithm based on neural networks and its applications, most of \textbf{Reviewer 1}'s criticisms are not directly related to the core innovation of our work, which is the neural operator algorithm. Instead, most comments pertain to the theoretical analysis of the radiative transfer PDE and Green's function (Points 1, 2, and 4), while Point 3 addresses issues we have already covered in Section 3, which may have been overlooked by this reviewer.
+
+We acknowledge that the writing in our previous manuscript may have been unclear and potentially confusing for reviewers. Therefore, in the revised version, we have made our best effort to address all issues raised by \textbf{Reviewer 1}.
+We hope the editor will understand our perspective on these matters.
+
+Thank you very much for your consideration of our manuscript.
+
+\begin{flushleft}
+  Sincerely,
+
+  Zheng Ma
+
+  Shanghai Jiao Tong University
+\end{flushleft}
+
+\end{document}

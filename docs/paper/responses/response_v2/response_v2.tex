@@ -1,0 +1,193 @@
+\documentclass[12pt]{article}
+\usepackage{color}
+\usepackage{units}
+\makeatletter
+\usepackage{fullpage}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{url}
+% \usepackage{cite}
+\usepackage{nameref,hyperref}
+% \usepackage[fontsize=13pt]{fontsize}
+\usepackage{graphicx}
+% \bibliographystyle{plain}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{indentfirst}
+\usepackage{setspace}
+\renewcommand{\baselinestretch}{1.5}
+% import Eq and Section references from the main manuscript where needed
+% \usepackage{xr}
+% \externaldocument{manuscript}
+\usepackage{xifthen}
+% define counters for reviewers and their points
+\usepackage{float}
+
+
+
+\definecolor{bl}{HTML}{005086}   %318fb5
+\newcommand{\bl}[1]{{\color{bl}#1}}
+\newcounter{reviewer}
+\setcounter{reviewer}{0}
+\newcounter{point}[reviewer]
+\setcounter{point}{0}
+\renewcommand{\fnum@figure}{RFig ~\thefigure}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+% This refines the format of how the reviewer/point reference will appear.
+\renewcommand{\thepoint}{P\,\thereviewer.\arabic{point}}
+
+% command declarations for reviewer points and our responses
+%\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip \hrule
+%                  \section*{Reviewer \thereviewer}}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algrenewcommand{\algorithmiccomment}[1]{\Statex{\hspace{-1.1em}\color{Brown}\small\textit{\# \;#1}}}
+\newcommand{\Ret}{\State{\color{OliveGreen}\Return}}
+\newcommand{\Def}{{\color{OliveGreen}\textbf{def  }}}
+
+\newcommand{\reviewersection}{\stepcounter{reviewer} \bigskip
+\section*{Reviewer \thereviewer}}
+\newenvironment{Comments}{ \bigskip \noindent  {\textbf{[General Comment]}}  } {\par }
+\newenvironment{point}{\refstepcounter{point} \bigskip \noindent {\textbf{[Reviewer~Point~\thepoint]} }  }{\par }
+\newcommand{\shortpoint}[1]{\refstepcounter{point}  \bigskip \noindent
+{\textbf{Reviewer~Point~\thepoint} } ---~#1\par }
+\newenvironment{reply}{\medskip \noindent \textbf{Response}:\  \color{blue}\ignorespaces}{\medskip}
+\newcommand{\shortreply}[2][]{\medskip \noindent
+  \begin{sf}\textbf{Reply}:\  #2
+    \ifthenelse{\equal{#1}{}}{}{ \hfill \footnotesize (#1)}%
+    \medskip
+\end{sf}}
+\newcommand{\minew}[1]{{\color{red}{#1}}}
+\makeatother
+
+\begin{document}
+
+\section*{Response to Reviewers}
+
+\begin{flushleft}
+	Dear Editor,
+\end{flushleft}
+
+On behalf of my co-authors: Yekun Zhu and Min Tang. I would like to submit the revised manuscript.
+
+We appreciate you and the reviewers for your precious time in reviewing our paper and providing thoughtful and insightful comments.
+We have addressed every comment, and believe that, taken together, the reviewers' comments have improved the manuscript significantly.
+We hope that the revised manuscript now satisfies the reviewers' requirements, and hereby submit the revised manuscript for publication.
+The authors welcome further constructive comments if any.
+
+Below we provide the point-by-point responses. All modifications in the manuscript have been highlighted in \textcolor{purple}{purple}.
+
+\begin{flushleft}
+	Sincerely,
+
+	Zheng Ma
+
+	Shanghai Jiao Tong University
+\end{flushleft}
+
+\newpage
+
+% Let's start point-by-point with Reviewer 1
+\reviewersection{}
+\begin{Comments}
+	The authors have responded satisfactorily to all my queries.
+\end{Comments}
+
+\begin{reply}
+	Thank you very much for your careful reading and positive comments on our revised manuscript. We are glad that our responses have addressed your all your concerns.
+\end{reply}
+
+\reviewersection{}
+\begin{Comments}
+	The authors have taken my comments into account, and I think that the paper has improved significantly. However, I still have some comments that I feel should be addressed before publication.
+\end{Comments}
+
+\begin{reply}
+	We are glad that the revisions have improved the manuscript significantly. Below we provide detailed responses to your additional comments.
+	All the changes in the manuscript are highlighted in \textcolor{purple}{purple} color.
+\end{reply}
+
+\begin{point}
+	Regarding point P2.8, I suggest that the results for g=0.99 be included in the paper.
+\end{point}
+
+\begin{reply}
+	Thank you for your suggestion. We have added this example to Section~5.3.3 in the revised manuscript.
+\end{reply}
+
+\begin{point}
+	Regarding point P2.3, I am not really happy with the cost comparison in Table 7, that has been added. The methods are run on completely different hardware. Especially, if I look at the processor specs, then the Intel Xeon 4410 has about 500 GFLOPs, and the RTX4090 about 1,300 GFLOPs. This is double precision, and I doubt they were run in double precision. Even then, this means that the four GPUs have about 10 times the compute power of the reported CPU compute power. That would mean that the reported speedup is almost entirely due to the hardware. The numbers come from a quick internet search, so they might not hold up exactly, but still the effect of the hardware is huge. I would ask the authors to please double-check this, and then to report numbers which give an idea of the speedup due to the method, but also potentially a speedup due to better hardware use.
+\end{point}
+
+\begin{reply}
+	Thank you for your insightful comments. We have re-evaluated the hardware specifications and performance metrics, and revised the comparison in Section~5.3.1 with updated Table~7 and Algorithm~7 in the revised manuscript.
+
+	To address your concern about hardware differences, we re-implemented the fast-sweeping solver to run on the same multi-GPU hardware (4$\times$RTX4090) using JAX, ensuring a fair comparison. Both methods run in single precision (float32) on GPUs. The reported $7.3\times$ speedup is therefore purely algorithmic, measured on identical hardware configurations.
+
+	However, we want to point out that unlike our DeepRTE model, which is a ``one-step'' pure inference (mainly matrix multiplications) task with high parallelism, the fast-sweeping method is an iterative solver whose efficiency highly dependes on the iteration steps (usually very large in practice) that requires frequent data communication between devices. This makes it challenging to fully utilize the computational power of multiple GPUs.
+
+	Therefore, we adopted an angle-based partitioning strategy to minimize inter-device communication overhead while maximizing parallel efficiency and utilized the Just-in-Time \texttt{jax.jit()} to compile the python code to GPU devices. This makes our multi-GPU fast-sweeping implementation highly optimized.
+
+	Below we provide a detailed description of our multi-GPU fast-sweeping implementation.
+	For GPU acceleration, we adopted an angle-based sharding strategy that aligns with sweep directions, maximizing parallel efficiency while minimizing inter-device communication. The algorithm is presented in Alg.~\ref{alg:fast-sweeping}.
+
+	\begin{algorithm}[!htbp]
+		\caption{Multi-GPU Fast-Sweeping Method}\label{alg:fast-sweeping}
+		\small
+		$\Def \text{ FastSweeping}(\mu_t, \mu_s, \{c_k\}, \{s_k\}, \{w_{k'}\}, p, \Delta x, \Delta y, D=4, \text{tol}=10^{-8}, \text{max\_iter}=1000)$:
+		\begin{algorithmic}[1]
+			\Comment{Data sharding: partition angular flux and scattering kernel across $D$ devices}
+			\State$M \gets n_v / D$
+			\Comment{Shard angular flux and scattering kernel; replicate cross-sections}
+			\ForAll{device $d \in \{1,\dots,D\}$}
+			\State$I^{d,[\ell]}_{i, j, k} \gets \texttt{jax.zeros}(n_x, n_y, M)$ \hfill $I^{d,[\ell]}_{i,j,k} \in \mathbb{R}^{n_x \times n_y \times M}$
+			\State$p^d_{k,k'} \gets p_{k,k'}$ for $k \in [(d-1)M, dM)$ and all $k'$
+			\Comment{Replicate material cross-sections to all devices}
+			\State$\mu_t^d, \mu_s^d \gets \mu_t, \mu_s$
+			\EndFor
+			\Comment{Source iteration with convergence check}
+			\ForAll{iteration $\ell \in [0, \text{max\_iter})$}
+			\Statex{\hspace{1.5em}\color{Brown}\small\textit{\# \;Step 1: All-gather angular fluxes from all devices (cross-device communication)}}
+			\State$I_{i,j,k'}^{[\ell]} \gets \text{All-Gather}(\{I_{i,j, k}^{d,[\ell]}\}_{d=1}^D)$ \hfill $k' \in [0, n_v)$
+			\ForAll{device $d$ \textbf{in parallel}}
+			\Statex{\hspace{1.5em}\color{Brown}\small\textit{\# \;Step 2: Compute local scattering moments on each device (local computation, no communication)}}
+			\State$S^{d,[\ell]}_{i,j,k} \gets \displaystyle\sum_{k'=0}^{n_v-1} w_{k'}\, p^d_{k,k'}\,I^{[\ell]}_{i,j,k'}$ \hfill $k \in [(d-1)M, dM)$
+			\Statex{\hspace{1.5em}\color{Brown}\small\textit{\# \;Step 3: Perform local angular sweeps on each device (local computation, no communication)}}
+			\ForAll{$i,j$ \textit{in sweep order}}
+			\State$I^{d,[\ell+1]}_{i,j,k} \gets \dfrac{c_k\dfrac{I^{d,[\ell]}_{i-1,j,k}}{\Delta x} + s_k\dfrac{I^{d,[\ell]}_{i,j-1,k}}{\Delta y} + (\mu_s)_{i,j}\,S^{d,[\ell]}_{i,j,k}}{\dfrac{c_k}{\Delta x} + \dfrac{s_k}{\Delta y} + (\mu_t)_{i,j}}$ \hfill $k \in [(d-1)M, dM)$
+			\EndFor
+			\EndFor
+			\Comment{Check convergence}
+			\If{$\text{RelativeError}(I^{[\ell+1]}, I^{[\ell]}) < \text{tol}$}
+			\State\textbf{break}
+			\EndIf
+			\EndFor
+			\Comment{Gather all angular fluxes from devices}
+			\State$I^{[\ell]} \gets \text{All-Gather}(\{I^{d,[\ell]}\}_{d=1}^D)$
+			\Ret$I^{[\ell]}$
+		\end{algorithmic}
+	\end{algorithm}
+
+	In this angle-based partitioning strategy, each of the $D=4$ GPUs is assigned one angular quadrant ($M$ angles) and stores the full spatial grid for its assigned angles. The discrete update formulas for the four quadrants follow the standard upwind scheme with appropriate sign changes based on the characteristic directions $(\pm c_k, \pm s_k)$. The sweep directions for the remaining three quadrants use $I_{i+1,j,k}$ and/or $I_{i,j+1,k}$ with corresponding coefficient sign adjustments.
+
+	For this comparison, we generated a test set of 100 samples using the same configuration as Case~III in the zero-shot transfer section. The initial guess for the iterative solver was set to zero. The iteration terminates when the relative error in the $L^2$ norm of \(I\) between two consecutive iterations falls below \(10^{-8}\). The source iteration converged after an average of 348.29 iterations (ranging from 336 to 353) across the test set.
+
+	Despite this highly optimized multi-GPU baseline, our DeepRTE model still achieves a significant $7.3\times$ speedup on the same hardware.
+	More importantly, as an end-to-end learning-based approach, DeepRTE delivers stable and consistent performance regardless of problem complexity. In contrast, iterative source iteration methods face severe convergence challenges in complex scenarios with highly scattering media or intricate geometries, often requiring thousands of iterations to converge. This robustness makes DeepRTE particularly well-suited for practical applications demanding both computational efficiency and reliability.
+
+
+
+
+\end{reply}\begin{point}
+	A minor remark, that I missed before: On page 4, rotational invariance of the scattering kernel usually implies that it depends only on the scalar product of ingoing and outgoing direction (like in the Henyey-Greenstein kernel eq. (99)). The symmetry on page 4 is simply indistinguishability of the particles.
+\end{point}
+
+\begin{reply}
+	Thank you for correcting this point. We have revised the description on page 4 accordingly in the revised manuscript.
+\end{reply}
+
+
+\end{document}
